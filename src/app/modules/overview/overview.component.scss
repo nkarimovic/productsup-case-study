@@ -1,0 +1,82 @@
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar,
+.table--filter-wrapper::-webkit-scrollbar {
+    width: 12px;
+}
+
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar-track,
+.table--filter-wrapper::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 20px;
+}
+
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar-thumb,
+.table--filter-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--productsup-dark);
+    border-radius: 20px;
+    border: 3px solid #fff;
+}
+
+:host ::ng-deep .p-dropdown, input {
+    width: 100%;
+}
+
+:host ::ng-deep .p-element {
+    padding-bottom: 10px;
+}
+
+:host ::ng-deep .p-chip {
+    background-color: var(--productsup-lightblue);
+    color: #fff;
+}
+
+.table--wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.table--sidebar {
+    padding: 50px;
+    background-color: var(--productsup-blue);
+
+    .form-group {
+        padding-bottom: 20px;
+
+        label, .form-dropdown {
+            display: block;
+        }
+
+        label {
+            padding-bottom: 10px;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        button.btn-success:hover {
+            background-color: var(--productsup-green);
+        }
+
+        button.btn-primary {
+            background-color: var(--productsup-red);
+            border: none;
+
+            &:hover {
+                background-color: var(--productsup-darkred);
+            }
+        }
+    }
+}
+
+.table--filter-wrapper {
+    max-height: 500px;
+    padding-top: 50px;
+    padding-right: 15px;
+    overflow-y: auto;
+}
+

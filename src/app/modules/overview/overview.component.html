@@ -1,0 +1,115 @@
+<div class="row table--wrapper">
+    <div class="col-12 col-md-10 p-5">
+        <p-table
+            id="json-table"
+            [value]="filteredResults"
+            [columns]="selectedColumns"
+            styleClass="p-datatable-striped p-datatable-lg"
+            [loading]="loading"
+            [paginator]="true"
+            [rows]="rows"
+            [first]="first"
+            responsiveLayout="scroll"
+            [totalRecords]="filteredResults.length"
+            scrollHeight="700px"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10,25,50]"
+        >
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex caption">
+                    <div class="p-d-inline-block">
+                        <p-multiSelect
+                            [options]="columns"
+                            [(ngModel)]="selectedColumns"
+                            optionLabel="name"
+                            selectedItemsLabel="{0} columns selected"
+                            [style]="{ minWidth: '200px' }"
+                            placeholder="Choose Columns"
+                        >
+                        </p-multiSelect>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="columns.length">
+                        <span class="table-records-empty"> No records found. </span>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th *ngFor="let selCol of selectedColumns">
+                        {{ selCol.name }}
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-result let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns">
+                        <span
+                            *ngIf="col['code'] !== 'url' && col['code'] !== 'image' && col['code'] !== 'image_additional' && col['code'] !== 'source_video'">
+                            {{result[col['code']]}}
+                        </span>
+
+                                <span *ngIf="col['code'] === 'url'">
+                            <a href="{{result[col['code']]}}" target="_blank">Visit URL</a>
+                        </span>
+
+                                <span *ngIf="col['code'] === 'image'">
+                            <a href="{{result[col['code']]}}" target="_blank">See image</a>
+                        </span>
+
+                                <span *ngIf="col['code'] === 'image_additional'">
+                            <a href="{{result[col['code']]}}" target="_blank">See image additional</a>
+                        </span>
+
+                                <span *ngIf="col['code'] === 'source_video'">
+                            <a href="{{result[col['code']]}}" target="_blank">Check out the video</a>
+                        </span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div class="col-12 col-md-2 table--sidebar">
+
+        <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="column">Select column to filter: </label>
+                <p-dropdown formControlName="column" id="column" [autoDisplayFirst]="false" [options]="columns" optionLabel="name" class="form-dropdown" placeholder="Columns"></p-dropdown>
+            </div>
+
+            <div class="form-group">
+                <label for="operator">Select an operator to apply: </label>
+                <p-dropdown formControlName="operator" id="operator" [autoDisplayFirst]="false" [options]="operators" optionLabel="name" class="form-dropdown" placeholder="Operators"></p-dropdown>
+            </div>
+
+            <div class="form-group">
+                <label for="columnValue">Value to filter: </label>
+                <input id="columnValue" type="text" pInputText formControlName="columnValue">
+            </div>
+
+            <div class="form-group">
+                <button type="submit"  [disabled]="!filterForm.valid" class="btn btn-success">Filter</button>
+            </div>
+
+            <div class="form-group" *ngIf="filters.length">
+                <button (click)="resetFilters()" class="btn btn-primary">Clear filters</button>
+            </div>
+        </form>
+
+        <div class="table--filter-wrapper">
+            <div class="row" *ngFor="let filter of formattedFilters; let i = index">
+                <p-chip label="{{filter | tableFilter}}" [removable]="true" (onRemove)="removeFilter(i)"></p-chip>
+            </div>
+        </div>
+
+    </div>
+</div>
+
